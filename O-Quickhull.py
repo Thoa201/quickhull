@@ -8,7 +8,7 @@ from datetime import datetime # To measure running time of the algorithm
 
 # Read input points
 
-points = np.genfromtxt('/Users/user/Documents/Data/Data-PointSetinR2/Discs/1000.csv', delimiter=',')
+points = np.genfromtxt('./10.csv', delimiter=',')
 
 
 
@@ -162,7 +162,22 @@ arranged_points = arranged_points + [q2] + find_o_hull2(set2, q2, qq2) + [qq2]
 arranged_points = arranged_points + [q3] + find_o_hull3(set3, q3, qq3) + [qq3]
 arranged_points = arranged_points + [q4] + find_o_hull4(set4, q4, qq4) + [qq4]
 
+print('kich thuoc cua mang arranged_point',len(arranged_points))
+def remove_duplicates(arranged_points):
+    seen = set()
+    unique_points = []
+    for point in arranged_points:
+        point_tuple = tuple(point.tolist())
+        if point_tuple not in seen:
+            seen.add(point_tuple)
+            unique_points.append(point)
+    return unique_points
 
+arranged_points = remove_duplicates(arranged_points)
+print('kich thuoc cua mang arranged_point sau khi remove:',len(arranged_points))
+
+
+#================can phai loc bo cac phan tu giong nhau trong arranged_point
 #============== Finish  O-Quickhull ===============#
 
 
@@ -180,39 +195,42 @@ print(f"Algorithm running time: {timeInSecond} seconds.")
 arranged_points.append(arranged_points[0])
 S = []
 n = len(arranged_points)
+print('cac phan tu ket qua la:')
+for i in arranged_points:
+    print(i)
 
 #print("number points to plot: ", n)
-for i in range(0, n-1):
-    
-    if arranged_points[i+1][0] > arranged_points[i][0] and arranged_points[i+1][1] > arranged_points[i][1]:
-        
-        p3 = [arranged_points[i][0], arranged_points[i+1][1]]
-        
-        S.append([i+1, p3])
-
-    elif arranged_points[i+1][0] > arranged_points[i][0] and arranged_points[i+1][1] < arranged_points[i][1]:
-        
-        p3 = [arranged_points[i+1][0], arranged_points[i][1]]
-        
-        S.append([i+1, p3])
-
-    elif arranged_points[i+1][0] < arranged_points[i][0] and arranged_points[i+1][1] < arranged_points[i][1]:
-    
-        p3 = [arranged_points[i][0], arranged_points[i+1][1]]
-    
-        S.append([i+1, p3])
-
-    elif arranged_points[i+1][0] < arranged_points[i][0] and arranged_points[i+1][1] > arranged_points[i][1]:
-        
-        p3 = [arranged_points[i+1][0], arranged_points[i][1]]
-        
-        S.append([i+1, p3])
-
-
-
-for i in range(len(S)):
-    arranged_points.insert(S[i][0]+i, S[i][1])
-arranged_points.append(arranged_points[0])
+# for i in range(0, n-1):
+#
+#     if arranged_points[i+1][0] > arranged_points[i][0] and arranged_points[i+1][1] > arranged_points[i][1]:
+#
+#         p3 = [arranged_points[i][0], arranged_points[i+1][1]]
+#
+#         S.append([i+1, p3])
+#
+#     elif arranged_points[i+1][0] > arranged_points[i][0] and arranged_points[i+1][1] < arranged_points[i][1]:
+#
+#         p3 = [arranged_points[i+1][0], arranged_points[i][1]]
+#
+#         S.append([i+1, p3])
+#
+#     elif arranged_points[i+1][0] < arranged_points[i][0] and arranged_points[i+1][1] < arranged_points[i][1]:
+#
+#         p3 = [arranged_points[i][0], arranged_points[i+1][1]]
+#
+#         S.append([i+1, p3])
+#
+#     elif arranged_points[i+1][0] < arranged_points[i][0] and arranged_points[i+1][1] > arranged_points[i][1]:
+#
+#         p3 = [arranged_points[i+1][0], arranged_points[i][1]]
+#
+#         S.append([i+1, p3])
+#
+#
+#
+# for i in range(len(S)):
+#     arranged_points.insert(S[i][0]+i, S[i][1])
+# arranged_points.append(arranged_points[0])
 ############################################################
 # Draw lines
 fig, ax = plt.subplots()
