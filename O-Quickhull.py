@@ -10,7 +10,7 @@ from datetime import datetime # To measure running time of the algorithm
 
 points = np.genfromtxt('./10.csv', delimiter=',')
 
-
+#txdo
 
 # Time measurement starts here
 startTime = datetime.now()

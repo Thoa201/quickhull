@@ -27,7 +27,7 @@ void removeDuplicatePoints(Point* points, int& n, Point* res, int& n_res) {
             points[n_res++] = points[i];
         }
     }
-
+//created by dotx
 }
 
 int main() {
