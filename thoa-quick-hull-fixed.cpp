@@ -1,12 +1,44 @@
 ﻿#include <iostream>
+
 using namespace std;
 
-struct Point
-{
+struct Point {
     double x, y;
 };
 
 //================================================================================
+void printPoints(Point *points, int n) {
+    for (int i = 0; i < n; i++) {
+        cout << points[i].x << " " << points[i].y << endl;
+    }
+}
+
+void copyToResult(Point pPoint[1000], int n_arranged_point, Point *pPoint1, int &size) {
+    size = n_arranged_point;
+    for(int i = 0; i<size; i++){
+        pPoint1[i].x = pPoint[i].x;
+        pPoint1[i].y = pPoint[i].y;
+    }
+}
+void removeDuplicatePoints(Point *points, int &n) {
+    int new_n = 0;
+    for (int i = 0; i < n; i++) {
+        bool is_duplicate = false;
+        for (int j = 0; j < new_n; j++) {
+            if (points[i].x == points[j].x && points[i].y == points[j].y) {
+                is_duplicate = true;
+                break;
+            }
+        }
+
+        if (!is_duplicate) {
+            points[new_n++] = points[i];
+        }
+    }
+
+    n = new_n; // Update the original n value
+}
+
 double findMaxY(Point points[], int n) {
     double maxY = points[0].y;
     for (int i = 1; i < n; i++) {
@@ -16,6 +48,7 @@ double findMaxY(Point points[], int n) {
     }
     return maxY;
 }
+
 double findMinY(Point points[], int n) {
     double minY = points[0].y;
     for (int i = 1; i < n; i++) {
@@ -25,6 +58,7 @@ double findMinY(Point points[], int n) {
     }
     return minY;
 }
+
 double findMaxX(Point points[], int n) {
     double maxX = points[0].y;
     for (int i = 1; i < n; i++) {
@@ -34,6 +68,7 @@ double findMaxX(Point points[], int n) {
     }
     return maxX;
 }
+
 double findMinX(Point points[], int n) {
     double minX = points[0].x;
     for (int i = 1; i < n; i++) {
@@ -43,11 +78,12 @@ double findMinX(Point points[], int n) {
     }
     return minX;
 }
-bool comparePoints(const Point& p1, const Point& p2)
-{
+
+bool comparePoints(const Point &p1, const Point &p2) {
     return (p1.x < p2.x) || (p1.x == p2.x && p1.y < p2.y);
 }
-void findPointsByY(Point point[], int size, double maxY, Point foundPoints[], int& foundPointsCount) {
+
+void findPointsByY(Point point[], int size, double maxY, Point foundPoints[], int &foundPointsCount) {
 
     // Duyệt qua mảng
     for (int i = 0; i < size; i++) {
@@ -59,7 +95,8 @@ void findPointsByY(Point point[], int size, double maxY, Point foundPoints[], in
     }
 
 }
-void findPointsByX(Point* points, int n, double x, Point result[], int& n_result) {
+
+void findPointsByX(Point *points, int n, double x, Point result[], int &n_result) {
 
 
     // Duyệt qua mảng points
@@ -71,7 +108,8 @@ void findPointsByX(Point* points, int n, double x, Point result[], int& n_result
         }
     }
 }
-void sortPointsByXDescending(Point* points, int n) {
+
+void sortPointsByXDescending(Point *points, int n) {
     // Sắp xếp mảng theo hoành độ giảm dần
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
@@ -85,7 +123,8 @@ void sortPointsByXDescending(Point* points, int n) {
         }
     }
 }
-void sortPointsByXAscending(Point* points, int n) {
+
+void sortPointsByXAscending(Point *points, int n) {
     // Sắp xếp mảng theo hoành độ tăng dần
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
@@ -99,7 +138,8 @@ void sortPointsByXAscending(Point* points, int n) {
         }
     }
 }
-void sortPointsByYDescending(Point* points, int n) {
+
+void sortPointsByYDescending(Point *points, int n) {
     // Sắp xếp mảng theo tung độ giảm dần
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
@@ -113,7 +153,8 @@ void sortPointsByYDescending(Point* points, int n) {
         }
     }
 }
-void sortPointsByYAscending(Point* points, int n) {
+
+void sortPointsByYAscending(Point *points, int n) {
     // Sắp xếp mảng theo tung độ tăng dần
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
@@ -127,7 +168,8 @@ void sortPointsByYAscending(Point* points, int n) {
         }
     }
 }
-void getPoints1(Point* points, int n, Point q1, Point qq1, Point* result, int& resultSize) {
+
+void getPoints1(Point *points, int n, Point q1, Point qq1, Point *result, int &resultSize) {
 
 
     // Duyệt qua mảng points
@@ -139,7 +181,8 @@ void getPoints1(Point* points, int n, Point q1, Point qq1, Point* result, int& r
         }
     }
 }
-void getPoints2(Point* points, int n, Point qq2, Point q2, Point* result, int& resultSize) {
+
+void getPoints2(Point *points, int n, Point qq2, Point q2, Point *result, int &resultSize) {
 
     // Duyệt qua mảng points
     for (int i = 0; i < n; i++) {
@@ -150,7 +193,8 @@ void getPoints2(Point* points, int n, Point qq2, Point q2, Point* result, int& r
         }
     }
 }
-void getPoints3(Point* points, int n, Point q3, Point qq3, Point* result, int& resultSize) {
+
+void getPoints3(Point *points, int n, Point q3, Point qq3, Point *result, int &resultSize) {
 
 
     // Duyệt qua mảng points
@@ -163,7 +207,8 @@ void getPoints3(Point* points, int n, Point q3, Point qq3, Point* result, int& r
     }
 
 }
-void getPoints4(Point* points, int n, Point qq4, Point q4, Point* result, int& resultSize) {
+
+void getPoints4(Point *points, int n, Point qq4, Point q4, Point *result, int &resultSize) {
 
 
     // Duyệt qua mảng points
@@ -175,34 +220,39 @@ void getPoints4(Point* points, int n, Point qq4, Point q4, Point* result, int& r
         }
     }
 }
-void findPointsWithYGreaterThan(Point points[], int n, double y, Point results[], int& n_result) {
+
+void findPointsWithYGreaterThan(Point points[], int n, double y, Point results[], int &n_result) {
     for (int i = 0; i < n; i++) {
         if (points[i].y > y) {
             results[n_result++] = points[i];
         }
     }
 }
-void findPointsWithYSmallerThan(Point points[], int n, double y, Point results[], int& n_result) {
+
+void findPointsWithYSmallerThan(Point points[], int n, double y, Point results[], int &n_result) {
     for (int i = 0; i < n; i++) {
         if (points[i].y < y) {
             results[n_result++] = points[i];
         }
     }
 }
-void findPointsWithXSmallerThan(Point points[], int n, double x, Point results[], int& n_result) {
+
+void findPointsWithXSmallerThan(Point points[], int n, double x, Point results[], int &n_result) {
     for (int i = 0; i < n; i++) {
         if (points[i].x < x) {
             results[n_result++] = points[i];
         }
     }
 }
-void findPointsWithXGreaterThan(Point points[], int n, double x, Point results[], int& n_result) {
+
+void findPointsWithXGreaterThan(Point points[], int n, double x, Point results[], int &n_result) {
     for (int i = 0; i < n; i++) {
         if (points[i].x > x) {
             results[n_result++] = points[i];
         }
     }
 }
+
 //Point* readPoints(const string& filename)
 //{
 //	ifstream file(filename);
@@ -229,6 +279,7 @@ void calculateSquareDifference(Point points[], int n, double q1, double qq1, dou
         results[i] = tmp1[i] + tmp2[i];
     }
 }
+
 double findMax(double array[], int size) {
     double max = array[0];
     for (int i = 1; i < size; i++) {
@@ -238,6 +289,7 @@ double findMax(double array[], int size) {
     }
     return max;
 }
+
 void findEqualElements(double key1[], int size, double maxset1, int results[]) {
     int count = 0;
     for (int i = 0; i < size; i++) {
@@ -247,10 +299,9 @@ void findEqualElements(double key1[], int size, double maxset1, int results[]) {
         }
     }
 }
-void findOHull1(Point set1[], int n_set1, Point q1, Point qq1, Point arrangedPoints[], int& n_arrangedPoints)
-{
-    if (n_set1 == 0)
-    {
+
+void findOHull1(Point set1[], int n_set1, Point q1, Point qq1, Point arrangedPoints[], int &n_arrangedPoints) {
+    if (n_set1 == 0) {
         //n_arrangedPoints = 0;
         return;
     }
@@ -272,10 +323,9 @@ void findOHull1(Point set1[], int n_set1, Point q1, Point qq1, Point arrangedPoi
     findOHull1(new_set12, n_new_set12, new_point1, qq1, arrangedPoints, n_arrangedPoints);
 
 }
-void findOHull2(Point set2[], int n_set2, Point q2, Point qq2, Point arrangedPoints[], int& n_arrangedPoints)
-{
-    if (n_set2 == 0)
-    {
+
+void findOHull2(Point set2[], int n_set2, Point q2, Point qq2, Point arrangedPoints[], int &n_arrangedPoints) {
+    if (n_set2 == 0) {
         //n_arrangedPoints = 0;
         return;
     }
@@ -298,10 +348,9 @@ void findOHull2(Point set2[], int n_set2, Point q2, Point qq2, Point arrangedPoi
     findOHull2(new_set22, n_new_set22, new_point2, qq2, arrangedPoints, n_arrangedPoints);
 
 }
-void findOHull3(Point set3[], int n_set3, Point q3, Point qq3, Point arrangedPoints[], int& n_arrangedPoints)
-{
-    if (n_set3 == 0)
-    {
+
+void findOHull3(Point set3[], int n_set3, Point q3, Point qq3, Point arrangedPoints[], int &n_arrangedPoints) {
+    if (n_set3 == 0) {
         //n_arrangedPoints = 0;
         return;
     }
@@ -322,10 +371,9 @@ void findOHull3(Point set3[], int n_set3, Point q3, Point qq3, Point arrangedPoi
     arrangedPoints[n_arrangedPoints++] = new_point3;
     findOHull3(new_set32, n_new_set32, new_point3, qq3, arrangedPoints, n_arrangedPoints);
 }
-void findOHull4(Point set4[], int n_set4, Point q4, Point qq4, Point arrangedPoints[], int& n_arrangedPoints)
-{
-    if (n_set4 == 0)
-    {
+
+void findOHull4(Point set4[], int n_set4, Point q4, Point qq4, Point arrangedPoints[], int &n_arrangedPoints) {
+    if (n_set4 == 0) {
         return;
     }
     double key4[1000];
@@ -346,9 +394,10 @@ void findOHull4(Point set4[], int n_set4, Point q4, Point qq4, Point arrangedPoi
     findOHull4(new_set42, n_new_set42, new_point4, qq4, arrangedPoints, n_arrangedPoints);
 
 }
-void findConvexHull(Point points[], int point_size, Point arranged_points[], int& n_arranged_point)
-{
 
+void findConvexHull(Point points[], int& point_size) {
+    Point arranged_points[1000];
+    int n_arranged_point = 0;
     double maxY = findMaxY(points, point_size);
     double minY = findMinY(points, point_size);
     double maxX = findMaxX(points, point_size);
@@ -378,8 +427,7 @@ void findConvexHull(Point points[], int point_size, Point arranged_points[], int
     if (n_topPoints == 1) {
         top[0] = topPoints[0];
         n_top = 1;
-    }
-    else {
+    } else {
         sortPointsByXAscending(topPoints, n_topPoints);
         n_top = 2;
         top[0] = topPoints[0];
@@ -394,8 +442,7 @@ void findConvexHull(Point points[], int point_size, Point arranged_points[], int
     if (n_bottomPoints == 1) {
         bottom[0] = bottomPoints[0];
         n_bottom = 1;
-    }
-    else {
+    } else {
         sortPointsByXDescending(bottomPoints, n_bottomPoints);
         n_bottom = 2;
         bottom[0] = bottomPoints[0];
@@ -408,8 +455,7 @@ void findConvexHull(Point points[], int point_size, Point arranged_points[], int
     if (n_rightPoints == 1) {
         right[0] = rightPoints[0];
         n_right = 1;
-    }
-    else {
+    } else {
         sortPointsByYDescending(rightPoints, n_rightPoints);
         n_right = 2;
         right[0] = rightPoints[0];
@@ -422,8 +468,7 @@ void findConvexHull(Point points[], int point_size, Point arranged_points[], int
     if (n_leftPoints == 1) {
         left[0] = leftPoints[0];
         n_left = 1;
-    }
-    else {
+    } else {
         sortPointsByYAscending(leftPoints, n_leftPoints);
         n_left = 2;
         left[0] = leftPoints[0];
@@ -433,8 +478,7 @@ void findConvexHull(Point points[], int point_size, Point arranged_points[], int
     if (n_top == 1) {
         q1 = top[0];
         qq4 = top[0];
-    }
-    else {
+    } else {
         q1 = top[0];
         qq4 = top[1];
     }
@@ -442,24 +486,21 @@ void findConvexHull(Point points[], int point_size, Point arranged_points[], int
 
     if (n_right == 1) {
         qq3 = right[0];
-    }
-    else {
+    } else {
         qq3 = right[1];
     }
     q3 = bottom[0];
 
     if (n_bottom == 1) {
         qq2 = bottom[0];
-    }
-    else {
+    } else {
         qq2 = bottom[1];
     }
     q2 = left[0];
 
     if (n_left == 1) {
         qq1 = left[0];
-    }
-    else {
+    } else {
         qq1 = left[1];
     }
 
@@ -472,7 +513,6 @@ void findConvexHull(Point points[], int point_size, Point arranged_points[], int
     getPoints2(points, point_size, qq2, q2, set2, n_set2);
     getPoints3(points, point_size, q3, qq3, set3, n_set3);
     getPoints4(points, point_size, qq4, q4, set4, n_set4);
-
 
 
     Point new_arranged_points[1000];
@@ -496,32 +536,28 @@ void findConvexHull(Point points[], int point_size, Point arranged_points[], int
         arranged_points[i] = new_arranged_points[i];
     }
     n_arranged_point = n_new_arranged_points;
-
+    removeDuplicatePoints(arranged_points, n_arranged_point);
+    copyToResult(arranged_points, n_arranged_point, points, point_size);
 }
 
-
-int main()
-{
+int main() {
     // tao diem
     Point points[10000];
-    points[0] = { 1.0, 1.0 };
-    points[1] = { 2.0, 2.0 };
-    points[2] = { 3.0, 1.5 };
-    points[3] = { 4.0, 5.0 };
-    points[4] = { 5.0, 4.0 };
-    points[5] = { 6.0, 3.0 };
-    points[6] = { 7.0, 2.0 };
-    points[7] = { 8.0, 3.5 };
-    points[8] = { 9.0, 1.0 };
+    points[0] = {1.0, 1.0};
+    points[1] = {2.0, 2.0};
+    points[2] = {3.0, 1.5};
+    points[3] = {4.0, 5.0};
+    points[4] = {5.0, 4.0};
+    points[5] = {6.0, 3.0};
+    points[6] = {7.0, 2.0};
+    points[7] = {8.0, 3.5};
+    points[8] = {9.0, 1.0};
     int n_points = 9;
-    Point convexHull[1000];
-    int n_convexHull = 0;
-    findConvexHull(points, n_points, convexHull, n_convexHull);
+    findConvexHull(points, n_points);
 
-    cout << "Convex Hull Points: "<<n_convexHull<<" diem" << endl;
-    for (int i = 0; i<n_convexHull; i++)
-    {
-        cout << "(" << convexHull[i].x << ", " << convexHull[i].y << ")" << endl;
+    cout << "Convex Hull Points: " << n_points << " diem" << endl;
+    for (int i = 0; i < n_points; i++) {
+        cout << "(" << points[i].x << ", " << points[i].y << ")" << endl;
     }
     return 0;
 }
