@@ -1,12 +1,16 @@
 ﻿#include <iostream>
 
 using namespace std;
-
+const double EPS = 1E-8;
 struct Point {
     double x, y;
 };
 
 //================================================================================
+int sig(double d) { return (d > EPS) - (d < -EPS); }
+bool point_same(Point& a, Point& b) {
+    return sig(a.x - b.x) == 0 && sig(a.y - b.y) == 0;
+}
 void printPoints(Point *points, int n) {
     for (int i = 0; i < n; i++) {
         cout << points[i].x << " " << points[i].y << endl;
@@ -394,7 +398,167 @@ void findOHull4(Point set4[], int n_set4, Point q4, Point qq4, Point arrangedPoi
     findOHull4(new_set42, n_new_set42, new_point4, qq4, arrangedPoints, n_arrangedPoints);
 
 }
+void findConvexHull_and_index(Point points[], int& point_size,int* points_to_convex_ind) {
+    int n_input = point_size;
+    Point input_poly[20];
+    for (int i = 0; i < n_input; i++) {
+        input_poly[i].x = points[i].x;
+        input_poly[i].y = points[i].y;
+    }
 
+
+    Point arranged_points[1000];
+    int n_arranged_point = 0;
+    double maxY = findMaxY(points, point_size);
+    double minY = findMinY(points, point_size);
+    double maxX = findMaxX(points, point_size);
+    double minX = findMinX(points, point_size);
+
+    Point rightPoints[1000];
+    int n_rightPoints = 0;
+    findPointsByX(points, point_size, maxX, rightPoints, n_rightPoints);
+
+    Point leftPoints[1000];
+    int n_leftPoints = 0;
+    findPointsByX(points, point_size, minX, leftPoints, n_leftPoints);
+
+    Point topPoints[1000];
+    int n_topPoints = 0;
+    findPointsByY(points, point_size, maxY, topPoints, n_topPoints);
+
+    Point bottomPoints[1000];
+    int n_bottomPoints = 0;
+    findPointsByY(points, point_size, minY, bottomPoints, n_bottomPoints);
+
+
+
+    //top
+    Point top[1000];
+    int n_top = 0;
+    if (n_topPoints == 1) {
+        top[0] = topPoints[0];
+        n_top = 1;
+    } else {
+        sortPointsByXAscending(topPoints, n_topPoints);
+        n_top = 2;
+        top[0] = topPoints[0];
+        top[1] = topPoints[n_topPoints - 1];
+    }
+
+
+    //bottom
+
+    Point bottom[1000];
+    int n_bottom = 0;
+    if (n_bottomPoints == 1) {
+        bottom[0] = bottomPoints[0];
+        n_bottom = 1;
+    } else {
+        sortPointsByXDescending(bottomPoints, n_bottomPoints);
+        n_bottom = 2;
+        bottom[0] = bottomPoints[0];
+        bottom[1] = bottomPoints[n_bottomPoints - 1];
+    }
+
+    //right
+    Point right[1000];
+    int n_right = 0;
+    if (n_rightPoints == 1) {
+        right[0] = rightPoints[0];
+        n_right = 1;
+    } else {
+        sortPointsByYDescending(rightPoints, n_rightPoints);
+        n_right = 2;
+        right[0] = rightPoints[0];
+        right[1] = rightPoints[n_rightPoints - 1];
+    }
+
+    //left
+    Point left[1000];
+    int n_left = 0;
+    if (n_leftPoints == 1) {
+        left[0] = leftPoints[0];
+        n_left = 1;
+    } else {
+        sortPointsByYAscending(leftPoints, n_leftPoints);
+        n_left = 2;
+        left[0] = leftPoints[0];
+        left[1] = leftPoints[n_leftPoints - 1];
+    }
+    Point q1, qq1, q2, qq2, q3, qq3, q4, qq4;
+    if (n_top == 1) {
+        q1 = top[0];
+        qq4 = top[0];
+    } else {
+        q1 = top[0];
+        qq4 = top[1];
+    }
+    q4 = right[0];
+
+    if (n_right == 1) {
+        qq3 = right[0];
+    } else {
+        qq3 = right[1];
+    }
+    q3 = bottom[0];
+
+    if (n_bottom == 1) {
+        qq2 = bottom[0];
+    } else {
+        qq2 = bottom[1];
+    }
+    q2 = left[0];
+
+    if (n_left == 1) {
+        qq1 = left[0];
+    } else {
+        qq1 = left[1];
+    }
+
+    Point set1[1000], set2[1000], set3[1000], set4[1000];
+    int n_set1 = 0;
+    int n_set2 = 0;
+    int n_set3 = 0;
+    int n_set4 = 0;
+    getPoints1(points, point_size, q1, qq1, set1, n_set1);
+    getPoints2(points, point_size, qq2, q2, set2, n_set2);
+    getPoints3(points, point_size, q3, qq3, set3, n_set3);
+    getPoints4(points, point_size, qq4, q4, set4, n_set4);
+
+
+    Point new_arranged_points[1000];
+    new_arranged_points[0] = q1;
+    new_arranged_points[1] = q1;
+    int n_new_arranged_points = 2;
+    findOHull1(set1, n_set1, q1, qq1, new_arranged_points, n_new_arranged_points);
+    new_arranged_points[n_new_arranged_points++] = qq1;
+    new_arranged_points[n_new_arranged_points++] = q2;
+    findOHull2(set2, n_set2, q2, qq2, new_arranged_points, n_new_arranged_points);
+    new_arranged_points[n_new_arranged_points++] = qq2;
+
+    new_arranged_points[n_new_arranged_points++] = q3;
+    findOHull3(set3, n_set3, q3, qq3, new_arranged_points, n_new_arranged_points);
+    new_arranged_points[n_new_arranged_points++] = qq3;
+
+    new_arranged_points[n_new_arranged_points++] = q4;
+    findOHull4(set4, n_set4, q4, qq4, new_arranged_points, n_new_arranged_points);
+    new_arranged_points[n_new_arranged_points++] = qq4;
+    for (int i = 0; i < n_new_arranged_points; i++) {
+        arranged_points[i] = new_arranged_points[i];
+    }
+    n_arranged_point = n_new_arranged_points;
+    removeDuplicatePoints(arranged_points, n_arranged_point);
+    copyToResult(arranged_points, n_arranged_point, points, point_size);
+
+    for (int i = 0; i < point_size; i++) {
+        for (int j = 0; j < n_input; j++) {
+            if (point_same(points[i], input_poly[j])) {
+                points_to_convex_ind[i] = j;
+                break;
+            }
+        }
+    }
+}
 void findConvexHull(Point points[], int& point_size) {
     Point arranged_points[1000];
     int n_arranged_point = 0;
@@ -553,11 +717,16 @@ int main() {
     points[7] = {8.0, 3.5};
     points[8] = {9.0, 1.0};
     int n_points = 9;
-    findConvexHull(points, n_points);
-
+    int point_to_convex_index[9] = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
+//    findConvexHull(points, n_points);
+    findConvexHull_and_index(points, n_points, point_to_convex_index);
     cout << "Convex Hull Points: " << n_points << " diem" << endl;
     for (int i = 0; i < n_points; i++) {
         cout << "(" << points[i].x << ", " << points[i].y << ")" << endl;
+    }
+    cout<<"chi so cua bao loi trong mang cu la:"<<endl;
+    for(int i = 0; i<9; i++){
+        cout<<point_to_convex_index[i]<<" ";
     }
     return 0;
 }
