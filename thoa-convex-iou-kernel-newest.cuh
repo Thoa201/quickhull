@@ -778,33 +778,33 @@ __device__ inline void findOHull4(Point set4[], int n_set4, Point q4, Point qq4,
 
 
 __device__ inline void Jarvis(Point* in_poly, int& n_poly) {
-    Point arranged_points[MAXN];
+    Point arranged_points[1000];
     int n_arranged_point = 0;
     double maxY = findMaxY(in_poly, n_poly);
     double minY = findMinY(in_poly, n_poly);
     double maxX = findMaxX(in_poly, n_poly);
     double minX = findMinX(in_poly, n_poly);
 
-    Point rightPoints[MAXN];
+    Point rightPoints[1000];
     int n_rightPoints = 0;
     findPointsByX(in_poly, n_poly, maxX, rightPoints, n_rightPoints);
 
-    Point leftPoints[MAXN];
+    Point leftPoints[1000];
     int n_leftPoints = 0;
     findPointsByX(in_poly, n_poly, minX, leftPoints, n_leftPoints);
 
-    Point topPoints[MAXN];
+    Point topPoints[1000];
     int n_topPoints = 0;
     findPointsByY(in_poly, n_poly, maxY, topPoints, n_topPoints);
 
-    Point bottomPoints[MAXN];
+    Point bottomPoints[1000];
     int n_bottomPoints = 0;
     findPointsByY(in_poly, n_poly, minY, bottomPoints, n_bottomPoints);
 
 
 
     //top
-    Point top[MAXN];
+    Point top[1000];
     int n_top = 0;
     if (n_topPoints == 1) {
         top[0] = topPoints[0];
@@ -819,7 +819,7 @@ __device__ inline void Jarvis(Point* in_poly, int& n_poly) {
 
     //bottom
 
-    Point bottom[MAXN];
+    Point bottom[1000];
     int n_bottom = 0;
     if (n_bottomPoints == 1) {
         bottom[0] = bottomPoints[0];
@@ -832,7 +832,7 @@ __device__ inline void Jarvis(Point* in_poly, int& n_poly) {
     }
 
     //right
-    Point right[MAXN];
+    Point right[1000];
     int n_right = 0;
     if (n_rightPoints == 1) {
         right[0] = rightPoints[0];
@@ -845,7 +845,7 @@ __device__ inline void Jarvis(Point* in_poly, int& n_poly) {
     }
 
     //left
-    Point left[MAXN];
+    Point left[1000];
     int n_left = 0;
     if (n_leftPoints == 1) {
         left[0] = leftPoints[0];
@@ -886,7 +886,7 @@ __device__ inline void Jarvis(Point* in_poly, int& n_poly) {
         qq1 = left[1];
     }
 
-    Point set1[MAXN], set2[MAXN], set3[MAXN], set4[MAXN];
+    Point set1[1000], set2[1000], set3[1000], set4[1000];
     int n_set1 = 0;
     int n_set2 = 0;
     int n_set3 = 0;
@@ -897,7 +897,7 @@ __device__ inline void Jarvis(Point* in_poly, int& n_poly) {
     getPoints4(in_poly, n_poly, qq4, q4, set4, n_set4);
 
 
-    Point new_arranged_points[MAXN];
+    Point new_arranged_points[1000];
     new_arranged_points[0] = q1;
     new_arranged_points[1] = q1;
     int n_new_arranged_points = 2;
@@ -991,33 +991,33 @@ __device__ inline void Jarvis_and_index(Point* in_poly, int& n_poly,
     }
 
     //=======================
-    Point arranged_points[MAXN];
+    Point arranged_points[1000];
     int n_arranged_point = 0;
     double maxY = findMaxY(in_poly, n_poly);
     double minY = findMinY(in_poly, n_poly);
     double maxX = findMaxX(in_poly, n_poly);
     double minX = findMinX(in_poly, n_poly);
 
-    Point rightPoints[MAXN];
+    Point rightPoints[1000];
     int n_rightPoints = 0;
     findPointsByX(in_poly, n_poly, maxX, rightPoints, n_rightPoints);
 
-    Point leftPoints[MAXN];
+    Point leftPoints[1000];
     int n_leftPoints = 0;
     findPointsByX(in_poly, n_poly, minX, leftPoints, n_leftPoints);
 
-    Point topPoints[MAXN];
+    Point topPoints[1000];
     int n_topPoints = 0;
     findPointsByY(in_poly, n_poly, maxY, topPoints, n_topPoints);
 
-    Point bottomPoints[MAXN];
+    Point bottomPoints[1000];
     int n_bottomPoints = 0;
     findPointsByY(in_poly, n_poly, minY, bottomPoints, n_bottomPoints);
 
 
 
     //top
-    Point top[MAXN];
+    Point top[1000];
     int n_top = 0;
     if (n_topPoints == 1) {
         top[0] = topPoints[0];
@@ -1032,7 +1032,7 @@ __device__ inline void Jarvis_and_index(Point* in_poly, int& n_poly,
 
     //bottom
 
-    Point bottom[MAXN];
+    Point bottom[1000];
     int n_bottom = 0;
     if (n_bottomPoints == 1) {
         bottom[0] = bottomPoints[0];
@@ -1045,7 +1045,7 @@ __device__ inline void Jarvis_and_index(Point* in_poly, int& n_poly,
     }
 
     //right
-    Point right[MAXN];
+    Point right[1000];
     int n_right = 0;
     if (n_rightPoints == 1) {
         right[0] = rightPoints[0];
@@ -1058,7 +1058,7 @@ __device__ inline void Jarvis_and_index(Point* in_poly, int& n_poly,
     }
 
     //left
-    Point left[MAXN];
+    Point left[1000];
     int n_left = 0;
     if (n_leftPoints == 1) {
         left[0] = leftPoints[0];
@@ -1099,7 +1099,7 @@ __device__ inline void Jarvis_and_index(Point* in_poly, int& n_poly,
         qq1 = left[1];
     }
 
-    Point set1[MAXN], set2[MAXN], set3[MAXN], set4[MAXN];
+    Point set1[1000], set2[1000], set3[1000], set4[1000];
     int n_set1 = 0;
     int n_set2 = 0;
     int n_set3 = 0;
@@ -1110,7 +1110,7 @@ __device__ inline void Jarvis_and_index(Point* in_poly, int& n_poly,
     getPoints4(in_poly, n_poly, qq4, q4, set4, n_set4);
 
 
-    Point new_arranged_points[MAXN];
+    Point new_arranged_points[1000];
     new_arranged_points[0] = q1;
     new_arranged_points[1] = q1;
     int n_new_arranged_points = 2;
