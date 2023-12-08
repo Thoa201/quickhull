@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 
 using namespace std;
+#define MAXN 100
 const double EPS = 1E-8;
 struct Point {
     double x, y;
@@ -17,7 +18,7 @@ void printPoints(Point *points, int n) {
     }
 }
 
-void copyToResult(Point pPoint[1000], int n_arranged_point, Point *pPoint1, int &size) {
+void copyToResult(Point pPoint[MAXN], int n_arranged_point, Point *pPoint1, int &size) {
     size = n_arranged_point;
     for(int i = 0; i<size; i++){
         pPoint1[i].x = pPoint[i].x;
@@ -83,9 +84,6 @@ double findMinX(Point points[], int n) {
     return minX;
 }
 
-bool comparePoints(const Point &p1, const Point &p2) {
-    return (p1.x < p2.x) || (p1.x == p2.x && p1.y < p2.y);
-}
 
 void findPointsByY(Point point[], int size, double maxY, Point foundPoints[], int &foundPointsCount) {
 
@@ -271,8 +269,8 @@ void findPointsWithXGreaterThan(Point points[], int n, double x, Point results[]
 //	return points;
 //}
 void calculateSquareDifference(Point points[], int n, double q1, double qq1, double results[]) {
-    double tmp1[1000];
-    double tmp2[1000];
+    double tmp1[MAXN];
+    double tmp2[MAXN];
     for (int i = 0; i < n; i++) {
         tmp1[i] = (points[i].x - q1) * (points[i].x - q1);
     }
@@ -309,14 +307,14 @@ void findOHull1(Point set1[], int n_set1, Point q1, Point qq1, Point arrangedPoi
         //n_arrangedPoints = 0;
         return;
     }
-    double key1[1000];
+    double key1[MAXN];
     int n_key1 = n_set1;
     calculateSquareDifference(set1, n_set1, q1.x, qq1.y, key1);
     double maxset1 = findMax(key1, n_key1);
     int arr_index_newpoint1[100];
     findEqualElements(key1, n_key1, maxset1, arr_index_newpoint1);
     Point new_point1 = set1[arr_index_newpoint1[0]];
-    Point new_set11[1000], new_set12[1000];
+    Point new_set11[MAXN], new_set12[MAXN];
     int n_new_set11 = 0;
     int n_new_set12 = 0;
     findPointsWithYGreaterThan(set1, n_set1, new_point1.y, new_set11, n_new_set11);
@@ -333,7 +331,7 @@ void findOHull2(Point set2[], int n_set2, Point q2, Point qq2, Point arrangedPoi
         //n_arrangedPoints = 0;
         return;
     }
-    double key2[1000];
+    double key2[MAXN];
     int n_key2 = n_set2;
     calculateSquareDifference(set2, n_set2, qq2.x, q2.y, key2);
     double maxset2 = findMax(key2, n_key2);
@@ -341,7 +339,7 @@ void findOHull2(Point set2[], int n_set2, Point q2, Point qq2, Point arrangedPoi
 
     findEqualElements(key2, n_key2, maxset2, arr_index_newpoint2);
     Point new_point2 = set2[arr_index_newpoint2[0]];
-    Point new_set21[1000], new_set22[1000];
+    Point new_set21[MAXN], new_set22[MAXN];
     int n_new_set21 = 0;
     int n_new_set22 = 0;
     findPointsWithXSmallerThan(set2, n_set2, new_point2.x, new_set21, n_new_set21);
@@ -358,14 +356,14 @@ void findOHull3(Point set3[], int n_set3, Point q3, Point qq3, Point arrangedPoi
         //n_arrangedPoints = 0;
         return;
     }
-    double key3[1000];
+    double key3[MAXN];
     int n_key3 = n_set3;
     calculateSquareDifference(set3, n_set3, q3.x, qq3.y, key3);
     double maxset3 = findMax(key3, n_key3);
     int arr_index_newpoint3[100];
     findEqualElements(key3, n_key3, maxset3, arr_index_newpoint3);
     Point new_point3 = set3[arr_index_newpoint3[0]];
-    Point new_set31[1000], new_set32[1000];
+    Point new_set31[MAXN], new_set32[MAXN];
     int n_new_set31 = 0;
     int n_new_set32 = 0;
     findPointsWithYSmallerThan(set3, n_set3, new_point3.y, new_set31, n_new_set31);
@@ -380,14 +378,14 @@ void findOHull4(Point set4[], int n_set4, Point q4, Point qq4, Point arrangedPoi
     if (n_set4 == 0) {
         return;
     }
-    double key4[1000];
+    double key4[MAXN];
     int n_key4 = n_set4;
     calculateSquareDifference(set4, n_set4, qq4.x, q4.y, key4);
     double maxset4 = findMax(key4, n_key4);
     int arr_index_newpoint4[100];
     findEqualElements(key4, n_key4, maxset4, arr_index_newpoint4);
     Point new_point4 = set4[arr_index_newpoint4[0]];
-    Point new_set41[1000], new_set42[1000];
+    Point new_set41[MAXN], new_set42[MAXN];
     int n_new_set41 = 0;
     int n_new_set42 = 0;
     findPointsWithXGreaterThan(set4, n_set4, new_point4.x, new_set41, n_new_set41);
@@ -405,35 +403,35 @@ void findConvexHull_and_index(Point points[], int& point_size,int* points_to_con
         input_poly[i].x = points[i].x;
         input_poly[i].y = points[i].y;
     }
+//=================code thay the nam o duoi==================
 
-
-    Point arranged_points[1000];
+    Point arranged_points[MAXN];
     int n_arranged_point = 0;
     double maxY = findMaxY(points, point_size);
     double minY = findMinY(points, point_size);
     double maxX = findMaxX(points, point_size);
     double minX = findMinX(points, point_size);
 
-    Point rightPoints[1000];
+    Point rightPoints[MAXN];
     int n_rightPoints = 0;
     findPointsByX(points, point_size, maxX, rightPoints, n_rightPoints);
 
-    Point leftPoints[1000];
+    Point leftPoints[MAXN];
     int n_leftPoints = 0;
     findPointsByX(points, point_size, minX, leftPoints, n_leftPoints);
 
-    Point topPoints[1000];
+    Point topPoints[MAXN];
     int n_topPoints = 0;
     findPointsByY(points, point_size, maxY, topPoints, n_topPoints);
 
-    Point bottomPoints[1000];
+    Point bottomPoints[MAXN];
     int n_bottomPoints = 0;
     findPointsByY(points, point_size, minY, bottomPoints, n_bottomPoints);
 
 
 
     //top
-    Point top[1000];
+    Point top[MAXN];
     int n_top = 0;
     if (n_topPoints == 1) {
         top[0] = topPoints[0];
@@ -448,7 +446,7 @@ void findConvexHull_and_index(Point points[], int& point_size,int* points_to_con
 
     //bottom
 
-    Point bottom[1000];
+    Point bottom[MAXN];
     int n_bottom = 0;
     if (n_bottomPoints == 1) {
         bottom[0] = bottomPoints[0];
@@ -461,7 +459,7 @@ void findConvexHull_and_index(Point points[], int& point_size,int* points_to_con
     }
 
     //right
-    Point right[1000];
+    Point right[MAXN];
     int n_right = 0;
     if (n_rightPoints == 1) {
         right[0] = rightPoints[0];
@@ -474,7 +472,7 @@ void findConvexHull_and_index(Point points[], int& point_size,int* points_to_con
     }
 
     //left
-    Point left[1000];
+    Point left[MAXN];
     int n_left = 0;
     if (n_leftPoints == 1) {
         left[0] = leftPoints[0];
@@ -515,7 +513,7 @@ void findConvexHull_and_index(Point points[], int& point_size,int* points_to_con
         qq1 = left[1];
     }
 
-    Point set1[1000], set2[1000], set3[1000], set4[1000];
+    Point set1[MAXN], set2[MAXN], set3[MAXN], set4[MAXN];
     int n_set1 = 0;
     int n_set2 = 0;
     int n_set3 = 0;
@@ -526,7 +524,7 @@ void findConvexHull_and_index(Point points[], int& point_size,int* points_to_con
     getPoints4(points, point_size, qq4, q4, set4, n_set4);
 
 
-    Point new_arranged_points[1000];
+    Point new_arranged_points[MAXN];
     new_arranged_points[0] = q1;
     new_arranged_points[1] = q1;
     int n_new_arranged_points = 2;
@@ -549,7 +547,7 @@ void findConvexHull_and_index(Point points[], int& point_size,int* points_to_con
     n_arranged_point = n_new_arranged_points;
     removeDuplicatePoints(arranged_points, n_arranged_point);
     copyToResult(arranged_points, n_arranged_point, points, point_size);
-
+//======================================
     for (int i = 0; i < point_size; i++) {
         for (int j = 0; j < n_input; j++) {
             if (point_same(points[i], input_poly[j])) {
@@ -560,33 +558,33 @@ void findConvexHull_and_index(Point points[], int& point_size,int* points_to_con
     }
 }
 void findConvexHull(Point points[], int& point_size) {
-    Point arranged_points[1000];
+    Point arranged_points[MAXN];
     int n_arranged_point = 0;
     double maxY = findMaxY(points, point_size);
     double minY = findMinY(points, point_size);
     double maxX = findMaxX(points, point_size);
     double minX = findMinX(points, point_size);
 
-    Point rightPoints[1000];
+    Point rightPoints[MAXN];
     int n_rightPoints = 0;
     findPointsByX(points, point_size, maxX, rightPoints, n_rightPoints);
 
-    Point leftPoints[1000];
+    Point leftPoints[MAXN];
     int n_leftPoints = 0;
     findPointsByX(points, point_size, minX, leftPoints, n_leftPoints);
 
-    Point topPoints[1000];
+    Point topPoints[MAXN];
     int n_topPoints = 0;
     findPointsByY(points, point_size, maxY, topPoints, n_topPoints);
 
-    Point bottomPoints[1000];
+    Point bottomPoints[MAXN];
     int n_bottomPoints = 0;
     findPointsByY(points, point_size, minY, bottomPoints, n_bottomPoints);
 
 
 
     //top
-    Point top[1000];
+    Point top[MAXN];
     int n_top = 0;
     if (n_topPoints == 1) {
         top[0] = topPoints[0];
@@ -601,7 +599,7 @@ void findConvexHull(Point points[], int& point_size) {
 
     //bottom
 
-    Point bottom[1000];
+    Point bottom[MAXN];
     int n_bottom = 0;
     if (n_bottomPoints == 1) {
         bottom[0] = bottomPoints[0];
@@ -614,7 +612,7 @@ void findConvexHull(Point points[], int& point_size) {
     }
 
     //right
-    Point right[1000];
+    Point right[MAXN];
     int n_right = 0;
     if (n_rightPoints == 1) {
         right[0] = rightPoints[0];
@@ -627,7 +625,7 @@ void findConvexHull(Point points[], int& point_size) {
     }
 
     //left
-    Point left[1000];
+    Point left[MAXN];
     int n_left = 0;
     if (n_leftPoints == 1) {
         left[0] = leftPoints[0];
@@ -668,7 +666,7 @@ void findConvexHull(Point points[], int& point_size) {
         qq1 = left[1];
     }
 
-    Point set1[1000], set2[1000], set3[1000], set4[1000];
+    Point set1[MAXN], set2[MAXN], set3[MAXN], set4[MAXN];
     int n_set1 = 0;
     int n_set2 = 0;
     int n_set3 = 0;
@@ -679,7 +677,7 @@ void findConvexHull(Point points[], int& point_size) {
     getPoints4(points, point_size, qq4, q4, set4, n_set4);
 
 
-    Point new_arranged_points[1000];
+    Point new_arranged_points[MAXN];
     new_arranged_points[0] = q1;
     new_arranged_points[1] = q1;
     int n_new_arranged_points = 2;
@@ -706,7 +704,7 @@ void findConvexHull(Point points[], int& point_size) {
 
 int main() {
     // tao diem
-    Point points[10000];
+    Point points[MAXN];
     points[0] = {1.0, 1.0};
     points[1] = {2.0, 2.0};
     points[2] = {3.0, 1.5};
